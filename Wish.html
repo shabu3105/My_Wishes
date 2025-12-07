@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Birthday video</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ffe6f0 0%, #fffbe6 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    .birthday-message {
+      margin-bottom: 30px;
+      text-align: center;
+      color: #d72660;
+      font-size: 2.2rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 8px #fff6, 0 1px 0 #fff;
+      animation: fadeInDown 2s;
+    }
+
+    .birthday-lines {
+      margin-bottom: 20px;
+      text-align: center;
+      color: #333;
+      font-size: 1.2rem;
+      font-style: italic;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      animation: fadeInUp 2s;
+    }
+
+    .slider {
+      width: 800px;
+      height: 600px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #fff;
+      border: 4px solid #ffd6e0;
+      box-shadow: 0 0 40px 0 #ffb6b9aa;
+    }
+
+    .slides img {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .slides img.active {
+      opacity: 1;
+    }
+
+    /* Decorative hearts */
+    .hearts {
+      position: absolute;
+      top: 200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 60px;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .heart {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background: #ff6f91;
+      left: 50%;
+      top: 0;
+      transform: translate(-50%, 0) rotate(-45deg);
+      border-radius: 50% 50% 0 0;
+      animation: floatHeart 3s infinite ease-in-out;
+    }
+    .heart:before,
+    .heart:after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background: #ff6f91;
+      border-radius: 50%;
+    }
+    .heart:before {
+      top: -12px;
+      left: 0;
+    }
+    .heart:after {
+      left: 12px;
+      top: 0;
+    }
+    .heart:nth-child(2) {
+      left: 30%;
+      top: 20px;
+      background: #ffb6b9;
+      animation-delay: 1s;
+    }
+    .heart:nth-child(3) {
+      left: 70%;
+      top: 10px;
+      background: #f67280;
+      animation-delay: 2s;
+    }
+
+    @keyframes floatHeart {
+      0% { transform: translateY(0) scale(1) rotate(-45deg);}
+      50% { transform: translateY(-15px) scale(1.1) rotate(-45deg);}
+      100% { transform: translateY(0) scale(1) rotate(-45deg);}
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+
+    /* Animated background circles (bokeh effect) */
+    .bg-anim {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.3;
+      background: radial-gradient(circle at 30% 30%, #ffb6b9 60%, #fffbe6 100%);
+      animation: floatCircle 18s linear infinite;
+      mix-blend-mode: lighten;
+    }
+    .circle.c1 { width: 180px; height: 180px; left: 10vw; top: 60vh; animation-delay: 0s;}
+    .circle.c2 { width: 120px; height: 120px; left: 70vw; top: 20vh; animation-delay: 4s;}
+    .circle.c3 { width: 90px; height: 90px; left: 40vw; top: 80vh; animation-delay: 2s;}
+    .circle.c4 { width: 140px; height: 140px; left: 80vw; top: 70vh; animation-delay: 7s;}
+    .circle.c5 { width: 100px; height: 100px; left: 20vw; top: 10vh; animation-delay: 10s;}
+    .circle.c6 { width: 60px; height: 60px; left: 55vw; top: 50vh; animation-delay: 13s;}
+
+    @keyframes floatCircle {
+      0% { transform: translateY(0) scale(1);}
+      50% { transform: translateY(-60px) scale(1.1);}
+      100% { transform: translateY(0) scale(1);}
+    }
+
+    /* Confetti styles */
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 20;
+    }
+    .confetti-piece {
+      position: absolute;
+      width: 12px;
+      height: 18px;
+      border-radius: 3px;
+      opacity: 2.85;
+      will-change: transform;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-anim">
+    <div class="circle c1"></div>
+    <div class="circle c2"></div>
+    <div class="circle c3"></div>
+    <div class="circle c4"></div>
+    <div class="circle c5"></div>
+    <div class="circle c6"></div>
+  </div>
+  <div class="birthday-message">
+  </div>
+  <div class="birthday-lines">
+  </div>
+  </div>
+  <video width="600" autoplay loop poster="thumbnail.jpg">
+  <source src="birthday.mp4" type="video/mp4">
+</video>
+  <div>
+    <a href="my wishes.html">
+      <button onclick="Wish.html"> My WISHES</button>
+  </a>
+     </div>
+  </div>
+</body>
+</html>
